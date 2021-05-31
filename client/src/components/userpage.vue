@@ -18,7 +18,7 @@
           </div>
           <div id="information">
             <i class="far fa-credit-card icon-user" style="font-size: 18px"></i>
-            <span style="margin-right: 0.5rem; margin-top: 0.5rem">
+            <span style="margin-right: 0.5rem;">
               CUSTOMER ID :
             </span>
             <span>2340554433</span>
