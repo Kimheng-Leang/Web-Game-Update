@@ -6,14 +6,14 @@
         <div id="user_inform" class="layout">
           <div class="title">
             <span class="title">USER INFORMATION</span>
-            <button>LOG OUT</button>
+            <button @click="handleClick">LOG OUT</button>
           </div>
 
           <!-- this data need to generate auto by system -->
           <div id="information">
             <i class="far fa-user-circle icon-user"></i>
             <span style="margin-right: 0.5rem">Name : </span>
-            <span>USER NAME</span>
+            <span>{{ user.displayName }}</span>
             <!-- name must be taken from system when user sign up -->
           </div>
           <div id="information">
@@ -79,12 +79,37 @@
 <script>
 import Header from "./Header";
 import Footer from "./Footer";
+import getUser from '../composables/getUser'
+import useLogout from '../composables/useLogout'
+import {useRouter} from 'vue-router'
+import {watch} from 'vue'
 export default {
   name: "userpage",
   components: {
     Header,
     Footer,
   },
+  setup() {
+		const {error,logout} = useLogout();
+		const {user} = getUser();
+		const router = useRouter();
+
+		const handleClick =  async() => {
+			await logout()
+			if(!error.value){
+				console.log("User Log out")
+			}
+		}
+    watch(user,()=>{
+			if(!user.value){
+				router.push('/')
+			}
+		});
+
+		return {
+			handleClick, user
+		}
+	},
 };
 </script>
 

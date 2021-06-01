@@ -13,6 +13,18 @@ import gamePage from '../components/gamePage'
 import editGame from '../components/edit'
 import faq from '../components/Faq'
 import Auth from '../components/Auth'
+import {projectAuth} from '../firebase/config'
+
+//auth guard
+const requiredAuth = (to, from, next) => {
+  let user = projectAuth.currentUser;
+  console.log('current user in auth guard : '+ user.displayName);
+  if(!user){
+    next({name : 'userpage'})
+  }
+  next();
+}
+
 const routes = [
   {
     path:'/',
@@ -52,7 +64,8 @@ const routes = [
   {
     path:'/userpage',
     name:'userpage',
-    component:userpage
+    beforeEnter : requiredAuth,
+    component:userpage,
   },
   {
     path:'/AboutUS',
