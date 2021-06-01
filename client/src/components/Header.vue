@@ -15,19 +15,23 @@
             </ul>
             <div class="Log-in">
                 <router-link  to="/userpage"><i class="far fa-user" :class="selectedUser"></i></router-link>
-                <a href="http://localhost:8080/login" @click="clickHeader('LogIn')">{{msg}}</a>
+                <router-link v-if="user !== null" to="/userpage" >{{user.displayName}}</router-link>
+                <router-link v-else to="/login">{{msg}}</router-link>
             </div>
         </nav>
     </header>
 </template>
 
 <script>
+
+import getUser from '../composables/getUser'
 export default {
     name:"Header",
 
     data(){
         return{
-            String:``
+            String:``,
+            user: null
         }
     },
     props:{
@@ -42,7 +46,14 @@ export default {
     },
     emits:['selectedHeader'],
     methods:{
-    }
+    },
+    setup() {
+        const {user} = getUser();
+        
+        return {
+            user
+        }
+    },
 }
 </script>
 

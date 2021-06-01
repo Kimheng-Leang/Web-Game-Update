@@ -17,6 +17,12 @@
             <!-- name must be taken from system when user sign up -->
           </div>
           <div id="information">
+            <i class="far fa-user-circle icon-user"></i>
+            <span style="margin-right: 0.5rem">Name : </span>
+            <span>{{ user.email }}</span>
+            <!-- name must be taken from system when user sign up -->
+          </div>
+          <div id="information">
             <i class="far fa-credit-card icon-user" style="font-size: 18px"></i>
             <span style="margin-right: 0.5rem;">
               CUSTOMER ID :

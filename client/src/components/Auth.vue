@@ -5,7 +5,7 @@
 				<img class="logo" src="../assets/images/Anachak_logo.svg" alt="">
 				<h4>WELCOME TO ANACHAK GAME</h4>
 			</div>
-			<signin-form @login="enterChat"/>
+			<signin-form @login="enterUserpage"/>
 			<p>Don't have an account? <u><span class="link-auth" @click="showLogin = false"> Sign up </span></u></p>
 		</div>
 		<div v-else>
@@ -13,7 +13,7 @@
 				<img class="logo" src="../assets/images/Anachak_logo.svg" alt="">
 				<h4>BE PART OF ANACHAK GAME</h4>
 			</div>
-			<signup-form @signup="enterChat"/>
+			<signup-form @signup="showLogin = true"/>
 			<p>Already have an account? <u> <span class="link-auth" @click="showLogin = true"> Sign in  </span></u></p>
 		</div>
 	</div>
@@ -34,11 +34,11 @@ export default {
 
 		const router = useRouter();
 
-		const enterChat = () => {
+		const enterUserpage = () => {
 			router.push({name : 'userpage'})
 		};
 
-		return {showLogin, enterChat}	
+		return {showLogin, enterUserpage}	
 	},
 }
 </script>
