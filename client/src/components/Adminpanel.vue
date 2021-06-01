@@ -188,8 +188,8 @@
                     <ul v-if="isSelectedGame(game)" class="list-game-detail">
                         <li><input v-model="editFormGame.title" type="text"> </li>
                         <li> <input v-model="editFormGame.description" type="text"></li>
-                        <li > <input v-model="editFormGame.discount_price" type="text"> RIELS</li>
-                        <li> <input v-model="editFormGame.original_price" type="text"> RIELS</li>
+                        <li > <input v-model="editFormGame.original_price" type="text"> RIELS</li>
+                        <li> <input v-model="editFormGame.discount_price" type="text"> RIELS</li>
                         <li> <input v-model="editFormGame.support_os" type="text"></li>
                         <li> <input v-model="editFormGame.type" type="text"></li>
                         <!-- <li>AVERAGE STAR: 4.5/5</li> -->
@@ -197,7 +197,7 @@
                     <ul v-else class="list-game-detail">
                         <li>{{game.Title}}</li>
                         <li>{{game.Description}}</li>
-                        <li class="discount">{{game.DiscountPrice}} RIELS</li>
+                        <li class="discount">{{game.OriginalPrice}} RIELS</li>
                         <li>{{game.Price}} RIELS</li>
                         <li>{{game.SupportOS}}</li>
                         <li>{{game.Type}}</li>
@@ -344,8 +344,10 @@ export default {
             .then(result=>{
                 this.formGame.title="";
                 this.formGame.description="";
-                this.formGame.original_price='';
-                this.formGame.discount_price='';
+                if(this.formGame.original_price!="empty"){
+                    this.formGame.original_price='';
+                    this.formGame.discount_price='';
+                }
                 this.formGame.type='';
                 this.window=false;
                 this.apple=false;
@@ -440,6 +442,7 @@ export default {
             })
         },
         deletedNews(id){
+            
             axios.delete('http://localhost:2000/admin/deleteNews/'+id).then(result=>{
                 console.log("News is deleted.");
                 this.localNewsStore=this.localNewsStore.filter((news)=>news._id!=id)

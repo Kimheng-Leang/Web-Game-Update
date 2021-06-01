@@ -46,7 +46,7 @@
                     <span>TOP FREE GAME</span>
                 </div>
                 <div>
-                    <a href="/productPage" class="color-seeall">SEE ALL</a>
+                    <a href="/gamePage/freeGame" class="color-seeall">SEE ALL</a>
                 </div>
             </div>
             <div class="line"></div>
@@ -145,7 +145,7 @@
                     <span>TOP PAID GAME</span>
                 </div>
                 <div>
-                    <a href="/productPage" class="color-seeall">SEE ALL</a>
+                    <a href="/gamePage/paidGame" class="color-seeall">SEE ALL</a>
                 </div>
             </div>
             <div class="line"></div>
@@ -409,16 +409,25 @@ export default {
         },
     },
     mounted(){
-        let images=["Valorant_full.jpg","Valorant2.jpg","Valorant3.jpg"]
+        let images=["Valorant2.jpg","Valorant3.jpg","Valorant_full.jpg"]
         const background=document.querySelector('.Game-background')
         const circle=document.querySelector('.circle')
         let index=0;
         setInterval(()=>{
+            console.log('Hi');
             this.backGround=require("../assets/images/"+images[index]);
+            console.log(index);
+            circle.children[index].classList.remove("selected-circle");
+            circle.children[index].style.transition="all 2s ease-in-out"
+            if(index<2){
+                circle.children[index+1].className="selected-circle";
+            }
             index++;
             if(index==3){
                 index=0;
+                circle.children[index].className="selected-circle";
             }
+            background.style.transition="all 2s ease-in-out"
             // img.src=require('../assets/images/'+images[1])
         },8000)
     }
@@ -477,7 +486,6 @@ main section{
 .GameofMonth ul{
     padding-left: 2rem;
     list-style: none;
-    cursor: pointer;
 }
 .Game-background{
     width: 50rem;

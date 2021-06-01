@@ -9,7 +9,7 @@ import NewsPage from '../components/NewsPage'
 import userpage from '../components/userpage'
 import AboutUs from '../components/aboutus'
 import CheckoutPage from '../components/CheckOutPage'
-import productPage from '../components/productPage'
+import gamePage from '../components/gamePage'
 import editGame from '../components/edit'
 import faq from '../components/Faq'
 const routes = [
@@ -63,9 +63,9 @@ const routes = [
     component:CheckoutPage
   },
   {
-    path:'/productPage',
-    name:'productPage',
-    component:productPage
+    path:'/gamePage/:type',
+    name:'gamePage',
+    component:gamePage
   },
   {
     path:'/admin/editGame/:id',
