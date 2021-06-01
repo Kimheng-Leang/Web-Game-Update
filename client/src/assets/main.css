@@ -1,12 +1,14 @@
-body{
-	background-color: #303841;
-}
 
+.auth{
+	background-color: #303841;
+	height: 100vh;
+	padding-top: 20vh;
+}
 .container-unique{
-	height: 100%;
 	width: 90%;
 	max-width: 460px;
-	margin: 200px auto;
+	margin: auto auto;
+	padding-bottom: auto;
 	border-radius: 20px;
 	box-shadow: 2px 4px 6px rgba(28, 6, 49, 0.1);
 	background-color: white;

@@ -19,7 +19,7 @@
           <div id="information">
             <i class="far fa-user-circle icon-user"></i>
             <span style="margin-right: 0.5rem">Name : </span>
-            <span>{{ user.email }}</span>
+            <span>{{ user.displayName }}</span>
             <!-- name must be taken from system when user sign up -->
           </div>
           <div id="information">

@@ -1,4 +1,5 @@
 <template>
+<div class="auth">
 	<div class="welcome container-unique">
 		<div v-if='showLogin'>
 			<div class="auth-header">
@@ -17,6 +18,7 @@
 			<p>Already have an account? <u> <span class="link-auth" @click="showLogin = true"> Sign in  </span></u></p>
 		</div>
 	</div>
+</div>
 </template>
 
 <script>
