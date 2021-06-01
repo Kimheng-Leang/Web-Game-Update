@@ -12,17 +12,19 @@ import CheckoutPage from '../components/CheckOutPage'
 import gamePage from '../components/gamePage'
 import editGame from '../components/edit'
 import faq from '../components/Faq'
+import Auth from '../components/Auth'
 const routes = [
   {
     path:'/',
     name:'Homepage',
     component:Homepage
   },
-  // {
-  //   path: '/login',
-  //   name: 'Login',
-  //   component: Login
-  // },{
+  {
+     path: '/login',
+     name: 'Login',
+     component: Auth
+   },
+   //{
   //   path: '/register',
   //   name: 'register',
   //   component: Register
