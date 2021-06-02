@@ -9,12 +9,14 @@
   "dependencies": {
     "@popperjs/core": "^2.9.2",
     "axios": "^0.21.1",
-    "bootstrap": "^5.0.0-beta3",
+    "bootstrap": "^5.0.1",
+    "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
     "firebase": "^8.6.3",
     "jquery": "^3.6.0",
     "popper.js": "^1.16.1",
-    "vue": "^3.0.0",
+    "v-video-embed": "^1.0.8",
+    "vue": "^3.0.11",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
