@@ -2,22 +2,6 @@
     <div>
         <Header msg="LOG IN" Hightlight="highlight_Store"/>
         <main>
-            <!-- <div id="Top-Menu">
-                <ul id="menu">
-                    <li class="logo"><img class="logo" src="" alt="The Logo"></li>
-                    <li class="list l1" data-header="HOME">HOME</li>
-                    <li class="list l2" data-header="ABOUT">ABOUT US</li>
-                    <li class="list l3" data-header="STORE">STORE</li>
-                    <li class="list" data-header="NEWS">NEWS</li>
-                    <li class="list l5" data-header="FAQ">FAQ</li>
-                </ul>
-                <div id="user_inform">
-                    <i class="far fa-user" style="font-size: 1.5em;"></i>
-                    <span>
-                        LOG IN
-                    </span>
-                </div>
-            </div> -->
             <section>
                 <router-link  to="/Store" class="link">
                     <div class="Back-to-store">
@@ -28,14 +12,21 @@
             <div class="order_inform">
                 <div class="information left_side">
                     <div class="pic_title_game">
-                        <div class="pic_game">
-                            <!-- to insert picture of the game -->
+                        <div class="pic_game" :style="{'background-image': `url(${game.image})`}">
+                            
                         </div>
                         <div class="title_game">
                             <div style="font-weight: bold; word-wrap: break-word;">
-                                Game Title
+                                {{game.title}}
                             </div>
-                            <div class="icon_os">
+                            <div v-if="game.support_os=='WINDOW'" class="icon_os">
+                                <i class="fas fa-border-all"></i>
+                            </div>
+                            <div v-else-if="game.support_os=='APPLE'" class="icon_os">
+                                <i class="fab fa-apple"></i>
+                                <i class="fas fa-border-all" style="margin-left:1rem"></i>
+                            </div>
+                            <div v-else class="icon_os">
                                 <i class="fab fa-apple"></i>
                                 <i class="fas fa-border-all" style="margin-left:1rem"></i>
                             </div>
@@ -44,15 +35,15 @@
                 </div>
                 <div class="information right_side">
                     <div class="price_game" style="font-weight: lighter;">
-                        PRICE: <b>20000 RIELS</b>
+                        PRICE: <b>{{game.price}} RIELS</b>
                     </div>
-                    <div class="total_size_game" style="font-weight: lighter;">
+                    <!-- <div class="total_size_game" style="font-weight: lighter;">
                         TOTAL SIZE:<b> 20 GB</b>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="total_price_game">
-                TOTAL: 20000 RIELS
+                TOTAL: {{game.price}} RIELS
             </div>
                 <div class="name_id_user">
                     <span>CUSTOMER NAME : USER NAME </span>
@@ -71,13 +62,34 @@
 <script>
 import Header from './Header'
 import Footer from './Footer'
+import axios from 'axios'
+import { useRoute } from 'vue-router'
 export default {
-    setup() {
-        
+    data(){
+        return{
+            game:{
+                id:'',
+                image:'',
+                title:'',
+                price:'',
+                support_os:'',
+            }
+        }
     },
     components:{
         Header,
         Footer
+    },
+    async mounted(){
+        const route = useRoute();
+        const game_id=route.params.id;
+        console.log(game_id);
+        const response = await axios.get(`http://localhost:2000/admin/getGames/${game_id}`);
+        this.game.id=response.data._id;
+        this.game.title=response.data.Title;
+        this.game.price=response.data.Price;
+        this.game.image=require('../../../server/public/'+response.data.Files[0]);
+        this.game.support_os=response.data.SupportOS;
     }
 }
 </script>
@@ -136,9 +148,10 @@ div.pic_title_game {
 }
 
 div.pic_game {
-    width           : 40%;
-    height          : 10em;
-    background-color: aqua;
+    width: 11rem;
+    height: 13rem; 
+    background-size:100%;
+    background-repeat: no-repeat;
 }
 
 div.title_game {
@@ -165,9 +178,9 @@ div.total_size_game {
 
 div.total_price_game {
     border-bottom : 0.1em solid #C4C4C4;
-    padding-bottom: 0.7em;
+    padding-bottom: 2.5rem;
     direction: rtl;
-    margin-top: 0.8em;
+    margin-top: 1rem;
     font-weight: bold;
 }
 div.name_id_user {

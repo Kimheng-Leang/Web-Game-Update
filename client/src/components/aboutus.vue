@@ -42,7 +42,7 @@
 			<h2 class="title">Our Team</h2>
 			<div class="team-container">
 				<div class="member">
-					<div class="member-pic1" :style="{'background-image': `url(${require('../assets/images/Veyseng.jpg')})`}" >
+					<div class="member-pic1" :style="{'background-image': `url(${require('../../../server/public/Veyseng.jpg')})`}" >
 					</div>
 					<div class="member-info1">
 						<h5>NAME: Choeng Veyseng</h5>
@@ -50,7 +50,7 @@
 					</div>
 				</div>
 				<div class="member">
-					<div class="member-pic1" :style="{'background-image': `url(${require('../assets/images/Kimheng.jpg')})`}">
+					<div class="member-pic1" :style="{'background-image': `url(${require('../../../server/public/Kimheng.jpg')})`}">
 					</div>
 					<div class="member-info1">
 						<h5>NAME: LEANG KIMHENG</h5>
@@ -58,7 +58,7 @@
 					</div>
 				</div>
 				<div class="member">
-					<div class="member-pic1" :style="{'background-image': `url(${require('../assets/images/Chhornorn.jpg')})`}">
+					<div class="member-pic1" :style="{'background-image': `url(${require('../../../server/public/Chhornorn.jpg')})`}">
 					</div>
 					<div class="member-info1">
 						<h5>NAME: LEAN CHHORNORN</h5>
@@ -66,7 +66,7 @@
 					</div>
 				</div>
 				<div class="member">
-					<div class="member-pic1" :style="{'background-image': `url(${require('../assets/images/User1.png')})`}">
+					<div class="member-pic1" :style="{'background-image': `url(${require('../../../server/public/User1.png')})`}">
 					</div>
 					<div class="member-info1">
 						<h5>NAME: ......</h5>

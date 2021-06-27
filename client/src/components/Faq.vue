@@ -22,8 +22,8 @@
           <span> YOUR QUESION </span>
           <div class="input_question">
             <!-- this is where are admin get the quesion from users -->
-            <input type="text" placeholder="ENTER YOUR QUESTION" />
-            <button>SUMBIT</button>
+            <input v-model="formQuestion.question" type="text" placeholder="ENTER YOUR QUESTION" />
+            <button @click="submitQuestion" type="button">SUMBIT</button>
           </div>
         </div>
       </section>
@@ -35,6 +35,7 @@
 <script>
 import Header from "./Header";
 import Footer from "./Footer";
+import axios from "axios"
 export default {
   name: "FQA",
   components: {
@@ -42,8 +43,21 @@ export default {
     Footer,
   },
   data() {
-    return {};
+    return {
+      formQuestion:{
+        quesiton:''
+      }
+    };
   },
+  methods:{
+    submitQuestion(){
+      axios.post('http://localhost:2000/Faq',this.formQuestion).then(result=>{
+        console.log(result);
+      }).catch(err=>{
+        console.log(err);
+      })
+    }
+  }
 };
 </script>
 

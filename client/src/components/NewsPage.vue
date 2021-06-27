@@ -5,45 +5,16 @@
             <section>
                 <div id="know_us_more">GET TO KNOW US MORE</div>
             </section>
-            <section>
-                <div class="row1">
+            <section v-for="i in countLine" :key="i.id" class="NewsList">
+                <div v-for="news in localStore.slice((i*2)-2,i*2)" :key="news._id" class="row1">
                     <div class="row1col1 columm1">
-                        <div class="r1c1 image_background img1"></div>
+                        <div class="r1c1 image_background img1"  :style="{'background-image': `url(${require('../../../server/public/'+news.Files[0])})`}">
+
+                        </div>
                         <!--for insert image-->
                         <ul class="inform list1">
                             <li class="news">NEWS</li>
-                            <li class="date">DATE: 31-02-2021</li>
-                        </ul>
-                        <div class="stream_topic">GET TO KNOW OUR STREAMERS</div>
-                    </div>
-                    <div class="row1col2 columm2">
-                        <div class="r1c2 image_background img2"></div>
-                        <!--for insert image-->
-                        <ul class="inform list2">
-                            <li class="news">NEWS</li>
-                            <li class="date">DATE: 31-02-2021</li>
-                        </ul>
-                        <div class="stream_topic">GET TO KNOW OUR STREAMERS</div>
-                    </div>
-                </div>
-            </section>
-            <section>
-                <div class="row1">
-                    <div class="row1col1 columm1">
-                        <div class="r1c1 image_background img1"></div>
-                        <!--for insert image-->
-                        <ul class="inform list1">
-                            <li class="news">NEWS</li>
-                            <li class="date">DATE: 31-02-2021</li>
-                        </ul>
-                        <div class="stream_topic">GET TO KNOW OUR STREAMERS</div>
-                    </div>
-                    <div class="row1col2 columm2">
-                        <div class="r1c2 image_background img2"></div>
-                        <!--for insert image-->
-                        <ul class="inform list2">
-                            <li class="news">NEWS</li>
-                            <li class="date">DATE: 31-02-2021</li>
+                            <li class="date">DATE: {{news.postedDate}}</li>
                         </ul>
                         <div class="stream_topic">GET TO KNOW OUR STREAMERS</div>
                     </div>
@@ -57,13 +28,37 @@
 <script>
 import Header from './Header'
 import Footer from './Footer'
+import axios from 'axios'
 export default {
-    setup() {
-        
+    data() {
+        return{
+            localStore:[],
+            countLine:Number,
+        }
     },
     components:{
         Header,
         Footer
+    },
+    async mounted(){
+        const response=await axios.get('http://localhost:2000/admin/getNews');
+        response.data.reverse().forEach(element=>{
+            let str=element.postedDate.split("T");
+            element.postedDate=str[0];
+            // const split=element.Description.split(" ");
+            // var str='';
+            // for(var i=0;i<6;i++){  
+            //     str=str+" "+split[i];
+            // }
+            // element.Description=str;
+            this.localStore.push(element);
+        })
+        if(response.data.length%2==0){
+            this.countLine=response.data.length/2;
+        }
+        else{
+            this.countLine=Math.floor((response.data.length/2)+1)
+        }
     }
 }
 </script>
@@ -251,5 +246,9 @@ div.copyright>div.line {
     width: 5.5em;
     left: 7.5em;
     transition: all 0.3s ease-in;
+}
+.NewsList{
+    display: flex;
+    justify-content: space-between;
 }
 </style>

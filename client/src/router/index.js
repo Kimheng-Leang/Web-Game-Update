@@ -14,7 +14,7 @@ import editGame from '../components/edit'
 import faq from '../components/Faq'
 import Auth from '../components/Auth'
 import {projectAuth} from '../firebase/config'
-
+import NewsDetail from '../components/NewsDetail'
 //auth guard
 const requiredAuth = (to, from, next) => {
   let user = projectAuth.currentUser;
@@ -32,10 +32,10 @@ const routes = [
     component:Homepage
   },
   {
-     path: '/login',
-     name: 'Login',
-     component: Auth
-   },
+    path: '/login',
+    name: 'Login',
+    component: Auth
+  },
    //{
   //   path: '/register',
   //   name: 'register',
@@ -47,7 +47,7 @@ const routes = [
     component:Adminpanel
   },
   {
-    path:'/gameDetail',
+    path:'/gameDetail/:id',
     name:'gameDetail',
     component:viewDetail
   },
@@ -73,13 +73,13 @@ const routes = [
     component:AboutUs
   },
   {
-    path:'/Checkout',
+    path:'/Checkout/:id',
     name:'checkout',
     component:CheckoutPage
   },
   {
     path:'/gamePage/:type',
-    name:'gamePage',
+    name:'gamePage/:type',
     component:gamePage
   },
   {
@@ -96,6 +96,11 @@ const routes = [
     path:'/Faq',
     name:'Faq',
     component:faq
+  },
+  {
+    path:'/newsDetail/:id',
+    name:'newsDetail/:id',
+    component:NewsDetail
   }
   
 ]

@@ -4,12 +4,20 @@
     <main>
         <section class="main-search">
             <div class="input-group rounded search">
-                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                <input v-model="search" @input="checkSearch" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                     aria-describedby="search-addon" />
-                <button class="border-0 btn btn-danger btn-search" id="search-addon">
+                <button disabled="true" class="border-0 btn btn-danger btn-search" id="search-addon">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
+            <!-- <div class="searchData">
+                <button class="selectedSearch">
+                </button>
+                <button class="selectedSearch">
+                </button>
+                <button class="selectedSearch">
+                </button>
+            </div> -->
         </section>
         <section>
             <div>
@@ -17,8 +25,8 @@
             </div>
             <div class="line-GameofMonth"></div>
             <div class="GameofMonth">
-                <a href="/gameDetail">
-                    <div class="Game-background" :style="{'background-image': `url(${backGround})`}">
+                <a :href="'/gameDetail/'+topGameOfMonth.id">
+                    <div class="Game-background" :style="{'background-image': `url(${background})`}">
                         
                     </div>
                 </a>
@@ -30,11 +38,11 @@
             </div>
             <div class="Game-detail">
                 <div>
-                    <span>GAME TITLE</span>
+                    <span>{{topGameOfMonth.title}}</span>
                 </div>
                 <ul>
-                    <li>20,000 RIELS</li>
-                    <li class="discount">40,000 RIELS</li>
+                    <li>{{topGameOfMonth.price}} RIELS</li>
+                    <li class="discount">{{topGameOfMonth.original_price}} RIELS</li>
                     <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
                 </ul>
             </div>
@@ -51,91 +59,21 @@
             </div>
             <div class="line"></div>
             <div class="game">
-                <div>
+                <div v-for="(freeGame,i) in localStoreTopFreeGame" :key="freeGame._id">
                     <!-- img -->
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Among_us.jpg')})`}" data-page="first-game" @mouseover="mouseOver('first-game')" @mouseleave="mouseLeave('first-game')" >
+                    <a :href="'/gameDetail/'+freeGame._id">
+                        <div class="sub-game" :style="{'background-image': `url(${require('../../../server/public/'+freeGame.Files[0])})`}" :data-page="i" @mouseover="mouseOver(i)" @mouseleave="mouseLeave(i)" >
 
                         </div>
                     </a>
                     <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
+                        <li>{{freeGame.Title}}</li>
+                        <li><p>{{freeGame.Description}} ...</p></li>
                         <li><div class="red-line"></div></li>
                         <li>FREE</li>
-                        <li><button class="btn btn-danger">BUY NOW</button></li>
+                        <li><a :href="'/gameDetail/'+freeGame._id"><button type="button" class="btn btn-danger">DOWNLOAD</button></a> </li>
                     </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div>
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/League_of_Legends.jpg')})`}" data-page="second-game" @mouseover="mouseOver('second-game')" @mouseleave="mouseLeave('second-game')">
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>FREE</li>
-                        <!-- <li>40,000 RIELS</li> -->
-                        <li><button class="btn btn-danger">BUY NOW</button></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div >
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Battlefleld1.jpg')})`}" data-page="third-game" @mouseover="mouseOver('third-game')" @mouseleave="mouseLeave('third-game')">
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>FREE</li>
-                        <li><button class="btn btn-danger ">BUY NOW</button></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div >
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Red_Dead.jpg')})`}" data-page="forth-game" @mouseover="mouseOver('forth-game')" @mouseleave="mouseLeave('forth-game')" >
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>FREE</li>
-                        <li><button class="btn btn-danger">BUY NOW</button></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="far fa-star "></i></li>
-                    </ul>
+                    <div class="Stars" :style="'--rating:'+freeGame.Rating+';'" aria-label="Rating of this product is 2.3 out of 5."></div>
                 </div>
             </div>
         </section>
@@ -149,31 +87,25 @@
                 </div>
             </div>
             <div class="line"></div>
-            <div class="game">
-                <div>
+            <div class="game" >
+                <div v-for="(TopPaidGame,i) in localStoreTopPaidGame" :key="TopPaidGame._id">
                     <!-- img -->
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Among_us.jpg')})`}" data-page="first-game" @mouseover="mouseOver('first-game')" @mouseleave="mouseLeave('first-game')" >
+                    <a :href="'/gameDetail/'+TopPaidGame._id">
+                        <div class="sub-game" :style="{'background-image': `url(${require('../../../server/public/'+TopPaidGame.Files[0])})`}" :data-page="i" @mouseover="mouseOver(i)" @mouseleave="mouseLeave(i)" >
 
                         </div>
                     </a>
                     <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
+                        <li>{{TopPaidGame.Title}}</li>
+                        <li><p>{{TopPaidGame.Description}} ...</p></li>
                         <li><div class="red-line"></div></li>
-                        <li>20,000 RIELS</li>
-                        <li class="discount">40,000 RIELS</li>
+                        <li>{{TopPaidGame.Price}} RIELS</li>
+                        <li v-if="TopPaidGame.DiscountPrice>0" class="discount">{{TopPaidGame.OriginalPrice}} RIELS</li>
                         <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
                     </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
+                    <div class="Stars" :style="'--rating:'+TopPaidGame.Rating+';'" aria-label="Rating of this product is 2.3 out of 5."></div>
                 </div>
-                <div>
+                <!-- <div>
                     <a href="/gameDetail">
                         <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/League_of_Legends.jpg')})`}" data-page="second-game" @mouseover="mouseOver('second-game')" @mouseleave="mouseLeave('second-game')">
 
@@ -184,7 +116,6 @@
                         <li><p>Game description Game description</p></li>
                         <li><div class="red-line"></div></li>
                         <li>20,000 RIELS</li>
-                        <!-- <li>40,000 RIELS</li> -->
                         <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
                     </ul>
                     <ul class="rating">
@@ -238,7 +169,7 @@
                         <li><i class="fas fa-star "></i></li>
                         <li><i class="far fa-star "></i></li>
                     </ul>
-                </div>
+                </div> -->
             </div>
         </section>
         <section>
@@ -255,7 +186,7 @@
                 <div>
                     <!-- img -->
                     <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Among_us.jpg')})`}" data-page="first-game" @mouseover="mouseOver('first-game')" @mouseleave="mouseLeave('first-game')" >
+                        <div class="sub-game" data-page="first-game" @mouseover="mouseOver('first-game')" @mouseleave="mouseLeave('first-game')" >
 
                         </div>
                     </a>
@@ -277,7 +208,7 @@
                 </div>
                 <div>
                     <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/League_of_Legends.jpg')})`}" data-page="second-game" @mouseover="mouseOver('second-game')" @mouseleave="mouseLeave('second-game')">
+                        <div class="sub-game"  data-page="second-game" @mouseover="mouseOver('second-game')" @mouseleave="mouseLeave('second-game')">
 
                         </div>
                     </a>
@@ -299,7 +230,7 @@
                 </div>
                 <div >
                     <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Battlefleld1.jpg')})`}" data-page="third-game" @mouseover="mouseOver('third-game')" @mouseleave="mouseLeave('third-game')">
+                        <div class="sub-game" data-page="third-game" @mouseover="mouseOver('third-game')" @mouseleave="mouseLeave('third-game')">
 
                         </div>
                     </a>
@@ -321,7 +252,7 @@
                 </div>
                 <div >
                     <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Red_Dead.jpg')})`}" data-page="forth-game" @mouseover="mouseOver('forth-game')" @mouseleave="mouseLeave('forth-game')" >
+                        <div class="sub-game"  data-page="forth-game" @mouseover="mouseOver('forth-game')" @mouseleave="mouseLeave('forth-game')" >
 
                         </div>
                     </a>
@@ -366,6 +297,7 @@
                 </ul>
             </div>
         </section>
+        <Footer/>
     </main>
 </div>
 </template>
@@ -373,12 +305,24 @@
 <script>
 import Header from './Header'
 import Footer from './Footer'
+import axios from 'axios'
 export default {
     name:"Store",
     data(){
         return{
-            src:require('../assets/images/logo.png'),
-            backGround:require('../assets/images/Valorant_full.jpg'),
+            // src:require('../assets/images/logo.png'),
+            background:'',
+            search:'',
+            localStoreTitleGame:[],
+            localStoreTopFreeGame:[],
+            localStoreTopPaidGame:[],
+            topGameOfMonth:{
+                title:'',
+                description:'',
+                price:'',
+                original_price:'',
+                id:'',
+            }
         }
     },
     components:{
@@ -408,28 +352,89 @@ export default {
             })
         },
     },
-    mounted(){
-        let images=["Valorant2.jpg","Valorant3.jpg","Valorant_full.jpg"]
+    computed:{
+        checkSearch(){
+            if(this.search!=null){
+                console.log("called");
+            }
+        },
+        isDisable(){
+            if(this.search!=null){
+                return true
+            }
+            else{
+                return false
+            }
+        }
+    },
+    async mounted(){
+        // get data from database
+        var Files="";
+        let backgrounds=[]
+        const responseGame= await axios.get('http://localhost:2000/admin/getGames');
+        let topViewsGame=responseGame.data[0].Views;
+        let foundIndex=0;
+        let lengthPaidGame=0,lengthFreeGame=0;
+        responseGame.data.forEach((element,j)=>{
+            const split=element.Description.split(" ");
+            var str='';
+            for(var i=0;i<6;i++){  
+                str=str+" "+split[i];
+            }
+            element.Description=str;
+            if(topViewsGame<element.Views){
+                topViewsGame=element.Views
+                foundIndex=j; //find index of the game who have the biggest viewer
+            }
+            if(element.OriginalPrice>0){
+                lengthPaidGame++;
+                if(lengthPaidGame<=4){
+                    this.localStoreTopPaidGame.push(element)
+                }
+            }
+            else{
+                
+                lengthFreeGame++;
+                if(lengthFreeGame<=4){
+                    this.localStoreTopFreeGame.push(element)
+                }
+            }
+            this.localStoreTitleGame.push(element)
+
+        })
+        Files=responseGame.data[foundIndex].Files;
+        this.background=require('../../../server/public/'+Files[1])
+        this.topGameOfMonth.title=responseGame.data[foundIndex].Title
+        this.topGameOfMonth.description=responseGame.data[foundIndex].Description
+        this.topGameOfMonth.price=responseGame.data[foundIndex].Price
+        this.topGameOfMonth.original_price=responseGame.data[foundIndex].OriginalPrice
+        this.topGameOfMonth.id=responseGame.data[foundIndex]._id
+        Files.forEach((element,i)=>{
+            if(i>0){
+                backgrounds.push(element)
+            }
+        })
+        backgrounds=backgrounds.reverse();
+        console.log(this.topGameOfMonth);
         const background=document.querySelector('.Game-background')
         const circle=document.querySelector('.circle')
         let index=0;
         setInterval(()=>{
             console.log('Hi');
-            this.backGround=require("../assets/images/"+images[index]);
-            console.log(index);
+            this.background=require("../../../server/public/"+backgrounds[index]);
             circle.children[index].classList.remove("selected-circle");
             circle.children[index].style.transition="all 2s ease-in-out"
-            if(index<2){
+            if(index<backgrounds.length-1){
                 circle.children[index+1].className="selected-circle";
             }
             index++;
-            if(index==3){
+            if(index==backgrounds.length){
                 index=0;
                 circle.children[index].className="selected-circle";
             }
             background.style.transition="all 2s ease-in-out"
             // img.src=require('../assets/images/'+images[1])
-        },8000)
+        },5000)
     }
 }
 </script>
@@ -456,6 +461,7 @@ main section{
 .main-search{
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 .search{
     width: 30rem;
@@ -576,4 +582,30 @@ button{
     line-height: 28px;
     color: #D72323;
 }
+.Stars {
+	 --percent: calc(var(--rating) / 5 * 100%);
+	display: inline-block;
+	font-size: var(--star-size);
+	font-family: Times;
+	line-height: 1;
+}
+.Stars::before {
+    content: '★★★★★';
+	letter-spacing: 3px;
+	background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+/* .selectedSearch{
+    width: 30rem;
+    height: 2.3rem;
+    border-radius: 0;
+}
+.searchData{
+    position:fixed;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    bottom:2.6rem;
+} */
 </style>

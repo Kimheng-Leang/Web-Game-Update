@@ -5,46 +5,36 @@
         <section >
             <span>TRENDING NOW</span>
             <div class="mainboard" >
-                <div class="main-billboard" :style="{'background-image': `url(${require('../assets/images/Valorant_full.jpg')})`}" data-original="Valorant_full.jpg" >
+                <div class="main-billboard" :style="{'background-image': `url(${formGame.background})`}">
                     <div class="sub-title">
-                        <h3>TITLE</h3>
+                        <h3>{{formGame.title}}</h3>
                         <div>
-                            <p>decription decription decription </p>
-                            <p>decription decription decription </p>
+                            <p>{{formGame.description}} </p>
                         </div>
                         <div>
-                            <button class="btn btn-light button">EXPLORE MORE <i class="fas fa-chevron-right"></i></button>
+                        <a :href="'/gameDetail/'+formGame.id"><button class="btn btn-light button">EXPLORE MORE <i class="fas fa-chevron-right"></i></button></a>
                         </div>
                     </div>
                 </div>
                 <div class="sub-billboard">
-                    <div class="sub-billboards selected" @mouseleave="mouseLeave('first-image')" @mouseover="mouseOver('first-image')" @click="clickSubbillBoard('first-image')" data-page="first-image" >
-                        <div class="sub-img" :style="{'background-image': `url(${require('../assets/images/Valorant.jpg')})`}">
+                    <div v-for="(game,i) in localStore.slice(0,1)" :key="game._id" class="sub-billboards selected" @mouseleave="mouseLeave(i)" @mouseover="mouseOver(i)" @click="clickSubbillBoard(i,game)" :data-page="i" >
+                        <div class="sub-img" :style="{'background-image': `url(${require('../../../server/public/'+game.Files[0])})`}">
                             
                         </div>
                         <div>
-                            <p>For Honor</p>
+                            <p>{{game.Title}}</p>
                         </div>
                     </div>
-                    <div class="sub-billboards" @mouseleave="mouseLeave('second-image')" @mouseover="mouseOver('second-image')" @click="clickSubbillBoard('second-image')" data-page="second-image" >
-                        <div class="sub-img" :style="{'background-image': `url(${require('../assets/images/Call_of_Duty.jpg')})`}">
-
+                    <div v-for="(game,i) in localStore.slice(1,3)" :key="game._id" class="sub-billboards" @mouseleave="mouseLeave(i+1)" @mouseover="mouseOver(i+1)" @click="clickSubbillBoard(i+1,game)" :data-page="i+1" >
+                        <div class="sub-img" :style="{'background-image': `url(${require('../../../server/public/'+game.Files[0])})`}">
+                            
                         </div>
-                        <div >
-                            <p>Call of Duty</p>
-                        </div>
-                    </div>
-                    <div class="sub-billboards" @mouseleave="mouseLeave('third-image')" @mouseover="mouseOver('third-image')" @click="clickSubbillBoard('third-image')" data-page="third-image" >
-                        <div class="sub-img" :style="{'background-image': `url(${require('../assets/images/God_of_War.jpg')})`}">
-
-                        </div>
-                        <div >
-                            <p>God of War</p>
+                        <div>
+                            <p>{{game.Title}}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            
         </section>
         <section>
             <div class="dropdown">
@@ -59,100 +49,35 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item" href="#">POPULAR GAME</a></li>
-                    <li><a class="dropdown-item" href="#">TOP FREE GAME</a></li>
-                    <li><a class="dropdown-item" href="#">TOP PAID GAME</a></li>
-                    <li><a class="dropdown-item" href="#">NEWEST GAME</a></li>
+                    <li><a class="dropdown-item" href="/gamePage/freeGame">TOP FREE GAME</a></li>
+                    <li><a class="dropdown-item" href="/gamePage/paidGame">TOP PAID GAME</a></li>
+                    <li><a class="dropdown-item" href="/gamePage/newestGame">NEWEST GAME</a></li>
                 </ul>
             </div>
             <div class="game">
-                <div>
+                <div v-for="(game,i) in localStore" :key="game._id">
                     <!-- img -->
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Among_us.jpg')})`}" data-page="first-game" @mouseover="mouseOver('first-game')" @mouseleave="mouseLeave('first-game')" >
+                    <a :href="'/gameDetail/'+game._id">
+                        <div class="sub-game" :style="{'background-image': `url(${require('../../../server/public/'+game.Files[0])})`}" :data-page="i" @mouseover="mouseOver(i)" @mouseleave="mouseLeave(i)" >
 
                         </div>
                     </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
+                    <ul v-if="game.OriginalPrice>0" class="game-detail">
+                        <li>{{game.Title}}</li>
+                        <li><p>{{game.Description}} ...</p></li>
                         <li><div class="red-line"></div></li>
-                        <li>20,000 RIELS</li>
-                        <li class="discount">40,000 RIELS</li>
-                        <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
+                        <li>{{game.Price}} RIELS</li>
+                        <li class="discount">{{game.OriginalPrice}} RIELS</li>
+                        <li><a :href="'/Checkout/'+game._id"><button class="btn btn-danger ">BUY NOW</button></a></li>
                     </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div>
-                    <a href="http://localhost:8080/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/League_of_Legends.jpg')})`}" data-page="second-game" @mouseover="mouseOver('second-game')" @mouseleave="mouseLeave('second-game')">
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
+                    <ul v-else class="game-detail">
+                        <li>{{game.Title}}</li>
+                        <li><p>{{game.Description}} ...</p></li>
                         <li><div class="red-line"></div></li>
-                        <li>20,000 RIELS</li>
-                        <!-- <li>40,000 RIELS</li> -->
-                        <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
+                        <li>Free</li>
+                        <li><a :href="'/gameDetail/'+game._id"><button type="button" class="btn btn-danger">DOWNLOAD</button></a> </li>
                     </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div >
-                    <a href="http://localhost:8080/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Battlefleld1.jpg')})`}" data-page="third-game" @mouseover="mouseOver('third-game')" @mouseleave="mouseLeave('third-game')">
-                            
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>20,000 RIELS</li>
-                        <li class="discount">40,000 RIELS</li>
-                        <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div >
-                    <a href="http://localhost:8080/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Red_Dead.jpg')})`}" data-page="forth-game" @mouseover="mouseOver('forth-game')" @mouseleave="mouseLeave('forth-game')" >
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>20,000 RIELS</li>
-                        <li class="discount">40,000 RIELS</li>
-                        <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="far fa-star "></i></li>
-                    </ul>
+                    <div class="Stars" :style="'--rating:'+game.Rating+';'" aria-label="Rating of this product is 2.3 out of 5."></div>
                 </div>
             </div>
         </section>
@@ -169,9 +94,9 @@
                 </div>
             </div>
             <div class="game">
-                <div>
-                    <a href="/NewsDetail">
-                        <div class="News-img" :style="{'background-image': `url(${require('../assets/images/News_Stream.jpg')})`}" data-page="first-news" @mouseover="mouseOver('first-news')" @mouseleave="mouseLeave('first-news')" >
+                <div v-for="(news,i) in localStoreNews" :key="news._id">
+                    <a :href="'/newsDetail/'+news._id">
+                        <div class="News-img" :style="{'background-image': `url(${require('../../../server/public/'+news.Files[0])})`}" :data-page="i" @mouseover="mouseOver(i)" @mouseleave="mouseLeave(i)" >
 
                         </div>
                     </a>
@@ -179,27 +104,12 @@
                             <ul class="game-detail">
                                 <ul class="News-detail">
                                     <li><h6>NEWS</h6></li>
-                                    <li><p>DATE: 31-02-2021</p></li>
+                                    <li><p>DATE: {{news.postedDate}}</p></li>
                                 </ul>
                                 <li>GET TO KNOW OUR STREAMERS</li>
                             </ul>
                     </div>
                 </div>
-                <div>
-                        <div class="News-img" :style="{'background-image': `url(${require('../assets/images/capsule.jpg')})`}" data-page="second-news" @mouseover="mouseOver('second-news')" @mouseleave="mouseLeave('second-news')">
-
-                        </div>
-                        <div>
-                            <ul class="game-detail">
-                                <ul class="News-detail">
-                                    <li><h6>NEWS</h6></li>
-                                    <li><p>DATE: 31-02-2021</p></li>
-                                </ul>
-                                <li>GET TO KNOW OUR STREAMERS</li>
-                            </ul>
-                        </div>
-                </div>
-                
             </div>
         </section>
     </main>
@@ -210,15 +120,35 @@
 <script>
 import Header from './Header'
 import Footer from './Footer'
+import axios from 'axios';
 export default {
     name:"Homepage",
+    data(){
+        return{
+            localStore:[],
+            formGame:{
+                background:'',
+                title:'',
+                description:'',
+                id:''
+            },
+            localStoreNews:[],
+            
+        }
+    },
     components:{
         Header,
         Footer
     },
     methods:{
-        clickSubbillBoard:function(text){
+        clickSubbillBoard:function(text,game){
             const sub_billBoards=document.querySelectorAll('.sub-billboards');
+            const background=document.querySelector('.main-billboard');
+            background.style.transition="all 1s ease";
+            this.formGame.title=game.Title
+            this.formGame.description=game.Description
+            this.formGame.id=game._id
+            this.formGame.background=require('../../../server/public/'+game.Files[1])
             // const main_Billboard = document.querySelector('.main-billboard');
             sub_billBoards.forEach(element=>{
                 const dataPage=element.getAttribute("data-page");
@@ -290,6 +220,48 @@ export default {
             })
             
         }
+    },
+    async mounted(){
+        const responseGame = await axios.get('http://localhost:2000/admin/getGames');
+        const responseNews = await axios.get('http://localhost:2000/admin/getNews');
+        responseGame.data.sort(function(a, b){
+            return b.Views-a.Views;
+        })
+        let lengthGame=0;
+        responseGame.data.forEach(element=>{
+            if(lengthGame==0){
+                this.formGame.title=element.Title
+                this.formGame.description=element.Description
+                this.formGame.background=require('../../../server/public/'+element.Files[1])
+                this.formGame.id=element._id;
+            }
+            lengthGame++
+            
+            const split=element.Description.split(" ");
+            var str='';
+            for(var i=0;i<6;i++){  
+                str=str+" "+split[i];
+            }
+            element.Description=str;
+            if(lengthGame<=4){
+                this.localStore.push(element)
+            }
+        })
+        let lengthNews=0
+        responseNews.data.reverse().forEach(element=>{
+            let str=element.postedDate.split("T");
+            element.postedDate=str[0];
+            // const split=element.Description.split(" ");
+            // var str='';
+            // for(var i=0;i<6;i++){  
+            //     str=str+" "+split[i];
+            // }
+            // element.Description=str;
+            lengthNews++
+            if(lengthNews<=2){
+                this.localStoreNews.push(element)
+            }
+        })
     }
 }
 </script>
@@ -452,5 +424,22 @@ li button{
     padding-left: 1.2rem;
     font-size: 12px;
     color: #FFFFFF;
+}
+a{
+    text-decoration: none;
+}
+.Stars {
+	 --percent: calc(var(--rating) / 5 * 100%);
+	display: inline-block;
+	font-size: var(--star-size);
+	font-family: Times;
+	line-height: 1;
+}
+.Stars::before {
+    content: '★★★★★';
+	letter-spacing: 3px;
+	background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 </style>

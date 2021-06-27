@@ -29,5 +29,8 @@ export default {
     --black-color: #303841;
     --dark-color: #3A4750;
     --max-width: 1100px;
+    --star-size: 2rem;
+    --star-color: #fff;
+    --star-background:  rgb(220, 53, 69);
   }
 </style>

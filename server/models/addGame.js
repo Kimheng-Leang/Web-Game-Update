@@ -30,27 +30,24 @@ const gameSchema = new schema({
         type:String,
         required:true
     },
-    // SupportOS:{
-    //     Window:{
-    //         type:String,
-    //     },
-    //     Apple:{
-    //         type:String,
-    //     }
-        
-    // }
     SupportOS:{
         type:String,
         required:true
     },
-    // ImgPath:{
-    //     type:String,
-    //     required:true
-    // },
-    // SourceFile:{
-    //     type:String,
-    //     required:true
-    // },
+    Views:{
+        type:Number,
+    },
+    Rating:{
+        type:Number,
+    },
+    Files:{
+        type:Array,
+        required:true
+    },
+    SourceFile:{
+        type:String,
+        required:true
+    },
 },{collection:"games"})
 
 const Game = mongoose.model('game',gameSchema)

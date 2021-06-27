@@ -10,6 +10,14 @@ const newsSchema = new Schema({
         type:String,
         required:true
     },
+    Files:{
+        type:Array,
+        required:true
+    },
+    postedDate:{
+        type:String,
+        required:true
+    }
 },{collection:'news'});
 
 module.exports=mongoose.model("News",newsSchema);

@@ -1,191 +1,37 @@
 <template>
     <div>
-        <Header msg="LOG IN"/>
+        <Header msg="LOG IN" Hightlight="highlight_Store"/>
         <main>
             <section>
-                <div class="Top-free-game">
-                    <div>
-                        <span>TOP FREE GAME</span>
+                <div class="Back-to-store">
+                    <router-link  to="/Store" class="link">
+                    <i class="fas fa-arrow-left set-color" style="color:red;"></i> BACK TO STORE
+                    </router-link>
+                </div>
+                <div>
+                    <span>{{message}}</span>
+                </div>
+                <div class="line"></div>
+                <div v-for="i in countLine" :key="i.id" class="game">
+                    <!-- game in localStoreGame(i*4-4,i*4)-->
+                    <div v-for="(game,i) in localStoreGame.slice(i*4-4,i*4)" :key="game._id">
+                        <!-- img -->
+                        <a :href="'/gameDetail/'+game._id">
+                            <div class="sub-game" :style="{'background-image': `url(${require('../../../server/public/'+game.Files[0])})`}" 
+                            :data-page="i" @mouseover="mouseOver(i)" @mouseleave="mouseLeave(i)" >
+
+                            </div>
+                        </a>
+                        <ul class="game-detail">
+                            <li>{{game.Title}}</li>
+                            <li><p>{{game.Description}}</p></li>
+                            <li><div class="red-line"></div></li>
+                            <li>FREE</li>
+                            <li><a :href="'/gameDetail/'+game._id"><button type="button" class="btn btn-danger">DOWNLOAD</button></a></li>
+                        </ul>
+                        <div class="Stars" :style="'--rating:'+game.Rating+';'" aria-label="Rating of this product is 2.3 out of 5."></div>
                     </div>
                 </div>
-                    <div class="line"></div>
-            <div class="game">
-                <div>
-                    <!-- img -->
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Among_us.jpg')})`}" data-page="first-game" @mouseover="mouseOver('first-game')" @mouseleave="mouseLeave('first-game')" >
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>FREE</li>
-                        <li><button class="btn btn-danger">BUY NOW</button></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div>
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/League_of_Legends.jpg')})`}" data-page="second-game" @mouseover="mouseOver('second-game')" @mouseleave="mouseLeave('second-game')">
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>FREE</li>
-                        <!-- <li>40,000 RIELS</li> -->
-                        <li><button class="btn btn-danger">BUY NOW</button></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div >
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Battlefleld1.jpg')})`}" data-page="third-game" @mouseover="mouseOver('third-game')" @mouseleave="mouseLeave('third-game')">
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>FREE</li>
-                        <li><button class="btn btn-danger ">BUY NOW</button></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div >
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Red_Dead.jpg')})`}" data-page="forth-game" @mouseover="mouseOver('forth-game')" @mouseleave="mouseLeave('forth-game')" >
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>FREE</li>
-                        <li><button class="btn btn-danger">BUY NOW</button></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="far fa-star "></i></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="line"></div>
-            <div class="game">
-                <div>
-                    <!-- img -->
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Among_us.jpg')})`}" data-page="first-game" @mouseover="mouseOver('first-game')" @mouseleave="mouseLeave('first-game')" >
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>FREE</li>
-                        <li><button class="btn btn-danger">BUY NOW</button></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div>
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/League_of_Legends.jpg')})`}" data-page="second-game" @mouseover="mouseOver('second-game')" @mouseleave="mouseLeave('second-game')">
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>FREE</li>
-                        <!-- <li>40,000 RIELS</li> -->
-                        <li><button class="btn btn-danger">BUY NOW</button></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div >
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Battlefleld1.jpg')})`}" data-page="third-game" @mouseover="mouseOver('third-game')" @mouseleave="mouseLeave('third-game')">
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>FREE</li>
-                        <li><button class="btn btn-danger ">BUY NOW</button></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div >
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Red_Dead.jpg')})`}" data-page="forth-game" @mouseover="mouseOver('forth-game')" @mouseleave="mouseLeave('forth-game')" >
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>FREE</li>
-                        <li><button class="btn btn-danger">BUY NOW</button></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="far fa-star "></i></li>
-                    </ul>
-                </div>
-            </div>
             </section>
         </main>
         <Footer/>
@@ -195,7 +41,17 @@
 <script>
 import Header from './Header'
 import Footer from './Footer'
+import { useRoute } from 'vue-router'
+import axios from 'axios';
 export default {
+    data(){
+        return{
+            type:'',
+            localStoreGame:[],
+            countLine:0,
+            message:''
+        }
+    },
     components:{
         Header,
         Footer
@@ -221,6 +77,38 @@ export default {
                     element.style.transform="none"
                 }
             })
+        }
+    },
+    async mounted(){
+        const route = useRoute()
+        const urlName = route.name
+        this.type=route.params.type
+        const response = await axios.get('http://localhost:2000/admin/getGames');
+        response.data.reverse().forEach(element=>{
+            const split=element.Description.split(" ");
+            var str='';
+            for(var i=0;i<6;i++){  
+                str=str+" "+split[i];
+            }
+            element.Description=str;
+            if(this.type=="freeGame"){
+                this.message="TOP FREE GAME";
+                if(element.OriginalPrice=="empty"){
+                    this.localStoreGame.push(element);
+                }
+            }
+            else if(this.type=="paidGame"){
+                this.message="TOP PAID GAME";
+                if(element.OriginalPrice>0){
+                    this.localStoreGame.push(element);
+                }
+            }
+        })
+        if(this.localStoreGame.length%4==0){
+            this.countLine=this.localStoreGame.length/4
+        }
+        else{
+            this.countLine=Math.floor((this.localStoreGame.length/4)+1);
         }
     }
 }
@@ -288,15 +176,39 @@ button{
     line-height: 22px;
     color: #C4C4C4;
 }
-.rating{
-    display: flex;
-    justify-content: space-between;
-    list-style: none;
-}
 .red-line{
     width: 11rem;
     height: 0.1rem;
     background: #D72323;
     margin-bottom: 0.3rem;
+}
+.Stars {
+	 --percent: calc(var(--rating) / 5 * 100%);
+	display: inline-block;
+	font-size: var(--star-size);
+	font-family: Times;
+	line-height: 1;
+}
+.Stars::before {
+    content: '★★★★★';
+	letter-spacing: 3px;
+	background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+.Back-to-store{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 10rem;
+    border-radius: 1rem;
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    border:1px solid red;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+.link{
+    color:white;
+    text-decoration: none;
 }
 </style>>

@@ -22,7 +22,7 @@
                 <div><span>{{changeTitle}}</span></div>
             </div>
             <div class="line"></div>
-            <form v-if="clickGame" action="">
+            <form v-if="clickGame" @submit.prevent="submitGame">
             <div >
                 <ul>
                     <li><button @click="changeGameType('Paid')" type="button" class="btn btn-danger selected-btn" data-page="Game" id="paid">PAID GAME</button></li>
@@ -98,7 +98,7 @@
                         </div>
                         <div>
                             <div class="form-group">
-                                <input type="file" class="form-control-file" id="exampleFormControlFile1" >
+                                <input @change="gameImage" type="file" class="form-control-file" id="image" >
                             </div>
                         </div>
                     </li>
@@ -108,7 +108,7 @@
                         </div>
                         <div>
                             <div class="form-group">
-                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                <input @change="chooseBackground" type="file" class="form-control-file" id="background" multiple>
                             </div>
                         </div>
                     </li>
@@ -118,7 +118,7 @@
                         </div>
                         <div>
                             <div class="form-group">
-                                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                <input @change="chooseSourceFile" type="file" class="form-control-file" id="sourceFile">
                             </div>
                         </div>
                     </li>
@@ -126,7 +126,7 @@
                 
             </div>
             <div class="createGame">
-                <button type="button" @click="submitGame" class="btn btn-danger" >CREATE GAME <i class="fas fa-plus"></i></button>
+                <button class="btn btn-danger" >CREATE GAME <i class="fas fa-plus"></i></button>
             </div>
             </form>
             <form v-if="!clickGame" action="">
@@ -154,7 +154,7 @@
                         </div>
                         <div>
                             <div class="form-group">
-                                <input type="file" class="form-control-file" id="exampleFormControlFile1" >
+                                <input @change="newsImage" type="file" class="form-control-file" id="newsImage" multiple >
                             </div>
                         </div>
                     </li>
@@ -162,7 +162,7 @@
                 
             </div>
             <div class="createGame">
-                <button type="button" class="btn btn-danger" @click="submitNews" >CREATE GAME <i class="fas fa-plus"></i></button>
+                <button type="button" class="btn btn-danger" @click="submitNews" >CREATE NEWS <i class="fas fa-plus"></i></button>
             </div>
             </form>
         </section>
@@ -173,8 +173,8 @@
             <div class="line"></div>
             <div v-for="game in localGameStore" :key="game.id" class="list-game">
                 <div class="main-list" :id="game._id">
-                    <div class="list-game-img">
-
+                    <div class="list-game-img" :style="{'background-image': `url(${require('../../../server/public/'+game.Files[0])})`}">
+                        
                     </div>
                     <!-- <ul v-if="selectedGame._id==game._id" class="list-game-detail">
                         <li><input v-model="editFormGame.title" type="text"> </li>
@@ -196,7 +196,7 @@
                     </ul>
                     <ul v-else class="list-game-detail">
                         <li>{{game.Title}}</li>
-                        <li>{{game.Description}}</li>
+                        <li >{{game.Description}} ...</li>
                         <li class="discount">{{game.OriginalPrice}} RIELS</li>
                         <li>{{game.Price}} RIELS</li>
                         <li>{{game.SupportOS}}</li>
@@ -241,7 +241,7 @@
             <div class="line"></div>
             <div v-for="news in localNewsStore" :key="news.id" class="list-game">
                 <div class="main-list" :id="news._id">
-                    <div class="list-game-img">
+                    <div class="list-game-img" :style="{'background-image': `url(${require('../../../server/public/'+news.Files[0])})`}">
 
                     </div>
                     <ul v-if="isSelectedNews(news)" class="list-game-detail">
@@ -312,10 +312,14 @@ export default {
                 discount_price:"",
                 type:"",
                 support_os:'',
+                image:'',
+                background:'',
+                sourceFile:'',
             },
             formNews:{
                 title:"",
                 description:"",
+                image:'',
             },
             editFormGame:{
                 title:"",
@@ -339,8 +343,20 @@ export default {
     },
     methods:{
         submitGame(){
+            const formData = new FormData();
             
-            axios.post('http://localhost:2000/admin/addgame',this.formGame)
+            formData.append('files', this.formGame.image[0])
+            for(const i of Object.keys(this.formGame.background)){
+                formData.append('files',this.formGame.background[i])
+            }
+            formData.append("title",this.formGame.title)
+            formData.append("description",this.formGame.description)
+            formData.append("original_price",this.formGame.original_price)
+            formData.append('discount_price',this.formGame.discount_price)
+            formData.append('type',this.formGame.type)
+            formData.append('support_os',this.formGame.support_os)
+            formData.append('source_file',this.formGame.sourceFile)
+            axios.post('http://localhost:2000/admin/addgame',formData)
             .then(result=>{
                 this.formGame.title="";
                 this.formGame.description="";
@@ -352,6 +368,9 @@ export default {
                 this.window=false;
                 this.apple=false;
                 this.localGameStore.push(result.data.data);
+                const backGround=document.getElementById('background').value="";
+                const image=document.getElementById('image').value="";
+                const sourceFile=document.getElementById('sourceFile').value="";
                 console.log(result.data.data);
             })
             .catch(err=>{
@@ -360,18 +379,29 @@ export default {
         },
         editedGame(game){
             this.selectedGame=game;
-            this.editFormGame.title=game.Title;
-            this.editFormGame.description=game.Description;
-            this.editFormGame.discount_price=game.DiscountPrice;
-            this.editFormGame.original_price=game.OriginalPrice;
-            this.editFormGame.type=game.Type;
-            this.editFormGame.support_os=game.SupportOS;
+            const response=axios.get(`http://localhost:2000/admin/getGames/${game._id}`)
+            .then(result=>{
+                console.log(result);
+                this.editFormGame.title=game.Title;
+                this.editFormGame.description=result.data.Description;
+                this.editFormGame.discount_price=game.DiscountPrice;
+                this.editFormGame.original_price=game.OriginalPrice;
+                this.editFormGame.type=game.Type;
+                this.editFormGame.support_os=game.SupportOS;
+            })
+            
         },
         updateGame(game_id){
             axios.patch(`http://localhost:2000/admin/editGame/${game_id}`,this.editFormGame).then(result=>{
                 console.log(result.data);
+                const split=result.data.Description.split(" ");
+                let str='';
+                for(var i=0;i<6;i++){  
+                    str=str+" "+split[i];
+                }
+                result.data.Description=str
                 let index=0;
-                let game=this.localGameStore.find((game)=>{
+                this.localGameStore.find((game)=>{
                     if(game._id==game_id){
                         this.localGameStore[index]=result.data
                     }
@@ -401,11 +431,16 @@ export default {
             })
         },
         submitNews(){
-            axios.post('http://localhost:2000/admin/addnews',this.formNews)
+            const formData = new FormData();
+            formData.append('files', this.formNews.image[0]);
+            formData.append('title',this.formNews.title);
+            formData.append('description',this.formNews.description)
+            axios.post('http://localhost:2000/admin/addnews',formData)
             .then(result=>{
                 this.localNewsStore.push(result.data.data)
                 this.formNews.title="";
                 this.formNews.description="";
+                const image=document.getElementById('newsImage').value="";
                 console.log(result);
             })
             .catch(err=>{
@@ -428,6 +463,7 @@ export default {
                 console.log(result.data);
                 let index=0;
                 let news=this.localNewsStore.find((news)=>{
+                    
                     if(news._id==news_id){
                         this.localNewsStore[index]=result.data
                     }
@@ -492,7 +528,24 @@ export default {
                 this.formGame.discount_price="empty";
             }
         },
-        
+        chooseBackground(event){
+            this.formGame.background=event.target.files;
+            console.log(this.formGame.background);
+        },
+        gameImage(event){
+            // this.formGame.image=event.target.files[0].name;
+            this.formGame.image=event.target.files;
+            console.log(this.formGame.image);
+        },
+        chooseSourceFile(event){
+            this.formGame.sourceFile=event.target.files[0].name;
+            console.log(this.formGame.sourceFile);
+        },
+        newsImage(event){
+            console.log(event.target.files);
+            this.formNews.image=event.target.files;
+            console.log(this.formNews.image);
+        }
         
     },
     async mounted(){
@@ -501,15 +554,19 @@ export default {
 		const responseGame = await axios.get('http://localhost:2000/admin/getGames');
         const responseNews = await axios.get('http://localhost:2000/admin/getNews');
 		//Store data into local 
-		// this.localPost = response.data;
-		// console.log(this.localPost);
-		// And in vuex
+        for(var j=0;j<responseGame.data.length;j++){
+            const split=responseGame.data[j].Description.split(" ");
+            const string='';
+            for(var i=0;i<6;i++){  
+                string=string+" "+split[i];
+            }
+            responseGame.data[j].Description=string
+        }
         this.localGameStore=responseGame.data;
         this.localNewsStore=responseNews.data;
-		store.dispatch("updateGames",responseGame.data);
-        store.dispatch("updateNews",responseNews.data)
-		console.log(responseGame.data);
-        console.log(responseNews.data);
+        // add in vuex
+		// store.dispatch("updateGames",responseGame.data);
+        // store.dispatch("updateNews",responseNews.data)
 	},
     computed:{
         ...mapGetters([
@@ -635,7 +692,8 @@ li input{
 .list-game-img{
     width: 8rem;
     height: 10rem;
-    background: #C4C4C4;
+    background-size:100%;
+    background-repeat: no-repeat;
 }
 .list-game-detail{
     display: block;
