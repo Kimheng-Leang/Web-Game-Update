@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import Login from '../components/login.vue'
 // import Register from '../components/register.vue'
-<<<<<<< HEAD
 import Homepage from '../components/Homepage'
 import Adminpanel from '../components/Adminpanel'
 import viewDetail from '../components/viewDetail'
@@ -16,23 +15,6 @@ import faq from '../components/Faq'
 import Auth from '../components/Auth'
 import {projectAuth} from '../firebase/config'
 import NewsDetail from '../components/NewsDetail'
-=======
-import Homepage from "../components/Homepage";
-import Adminpanel from "../components/Adminpanel";
-import viewDetail from "../components/viewDetail";
-import Store from "../components/Store";
-import NewsPage from "../components/NewsPage";
-import userpage from "../components/userpage";
-import AboutUs from "../components/aboutus";
-import CheckoutPage from "../components/CheckOutPage";
-import gamePage from "../components/gamePage";
-import editGame from "../components/edit";
-import faq from "../components/Faq";
-import Auth from "../components/Auth";
-import { projectAuth } from "../firebase/config";
-import NewDetail from "@/components/NewDetail.vue";
-
->>>>>>> 33b57bd1edd9ed4b2ecf7c364d3693e085a58095
 //auth guard
 const requiredAuth = (to, from, next) => {
   let user = projectAuth.currentUser;
@@ -50,19 +32,11 @@ const routes = [
     component: Homepage,
   },
   {
-<<<<<<< HEAD
     path: '/login',
     name: 'Login',
     component: Auth
   },
    //{
-=======
-    path: "/login",
-    name: "Login",
-    component: Auth,
-  },
-  //{
->>>>>>> 33b57bd1edd9ed4b2ecf7c364d3693e085a58095
   //   path: '/register',
   //   name: 'register',
   //   component: Register
@@ -73,15 +47,9 @@ const routes = [
     component: Adminpanel,
   },
   {
-<<<<<<< HEAD
     path:'/gameDetail/:id',
     name:'gameDetail',
     component:viewDetail
-=======
-    path: "/gameDetail",
-    name: "gameDetail",
-    component: viewDetail,
->>>>>>> 33b57bd1edd9ed4b2ecf7c364d3693e085a58095
   },
   {
     path: "/NewsPage",
@@ -105,7 +73,6 @@ const routes = [
     component: AboutUs,
   },
   {
-<<<<<<< HEAD
     path:'/Checkout/:id',
     name:'checkout',
     component:CheckoutPage
@@ -114,16 +81,6 @@ const routes = [
     path:'/gamePage/:type',
     name:'gamePage/:type',
     component:gamePage
-=======
-    path: "/Checkout",
-    name: "checkout",
-    component: CheckoutPage,
-  },
-  {
-    path: "/gamePage/:type",
-    name: "gamePage",
-    component: gamePage,
->>>>>>> 33b57bd1edd9ed4b2ecf7c364d3693e085a58095
   },
   {
     path: "/admin/editGame/:id",
@@ -136,7 +93,6 @@ const routes = [
     component: editGame,
   },
   {
-<<<<<<< HEAD
     path:'/Faq',
     name:'Faq',
     component:faq
@@ -148,18 +104,6 @@ const routes = [
   }
   
 ]
-=======
-    path: "/Faq",
-    name: "Faq",
-    component: faq,
-  },
-  {
-    path: "/NewsPage/newDetail",
-    name: "newDetail",
-    component: NewDetail,
-  },
-];
->>>>>>> 33b57bd1edd9ed4b2ecf7c364d3693e085a58095
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
