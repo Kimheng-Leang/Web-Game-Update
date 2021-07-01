@@ -22,7 +22,15 @@
 
                             </div>
                         </a>
-                        <ul class="game-detail">
+                        <ul v-if="game.OriginalPrice>0" class="game-detail">
+                            <li>{{game.Title}}</li>
+                            <li><p>{{game.Description}} ...</p></li>
+                            <li><div class="red-line"></div></li>
+                            <li>{{game.Price}} RIELS</li>
+                            <li class="discount">{{game.OriginalPrice}} RIELS</li>
+                            <li><a :href="'/Checkout/'+game._id"><button class="btn btn-danger ">BUY NOW</button></a></li>
+                        </ul>
+                        <ul v-else class="game-detail">
                             <li>{{game.Title}}</li>
                             <li><p>{{game.Description}}</p></li>
                             <li><div class="red-line"></div></li>
@@ -91,6 +99,7 @@ export default {
                 str=str+" "+split[i];
             }
             element.Description=str;
+            
             if(this.type=="freeGame"){
                 this.message="TOP FREE GAME";
                 if(element.OriginalPrice=="empty"){
@@ -103,7 +112,15 @@ export default {
                     this.localStoreGame.push(element);
                 }
             }
+            else if(element.Title.toLowerCase()==this.type.toLowerCase()||element.Type.toLowerCase()==this.type.toLowerCase()){
+                this.message=this.type.toUpperCase();
+                this.localStoreGame.push(element)
+            }
         })
+        console.log(this.localStoreGame.length);
+        if(this.localStoreGame.length==0){
+            this.message="NOT FOUND";
+        }
         if(this.localStoreGame.length%4==0){
             this.countLine=this.localStoreGame.length/4
         }

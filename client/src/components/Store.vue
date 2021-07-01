@@ -4,9 +4,9 @@
     <main>
         <section class="main-search">
             <div class="input-group rounded search">
-                <input v-model="search" @input="checkSearch" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                <input @keyup="Enter" v-model="search" @input="checkSearch" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                     aria-describedby="search-addon" />
-                <button disabled="true" class="border-0 btn btn-danger btn-search" id="search-addon">
+                <button @click="Search" :disabled='isDisable' class="border-0 btn btn-danger btn-search" id="search-addon">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
@@ -351,21 +351,27 @@ export default {
                 }
             })
         },
-    },
-    computed:{
-        checkSearch(){
-            if(this.search!=null){
-                console.log("called");
+        Enter:function(e){
+            if(this.search.length>0){
+                if(e.keyCode==13){
+                    this.$router.push('/gamePage/'+this.search)
+                }
             }
         },
+        Search(){
+            this.$router.push('/gamePage/'+this.search)
+        }
+        
+    },
+    computed:{
         isDisable(){
-            if(this.search!=null){
-                return true
-            }
-            else{
+            if(this.search.length>0){
                 return false
             }
-        }
+            else{
+                return true
+            }
+        },
     },
     async mounted(){
         // get data from database

@@ -344,6 +344,9 @@ export default {
         //get comment by gameID
         const getCommentByGameID = await axios.get(`http://localhost:2000/getComment/${this.formGame.id}`);
         // console.log(getCommentByGameID.data);
+        if(getCommentByGameID.data.length<2){
+            this.clearSeeMore=true;
+        }
         getCommentByGameID.data.reverse().forEach(element=>{
             let str=element.commentedAt.split("T");
             element.commentedAt=str[0];
