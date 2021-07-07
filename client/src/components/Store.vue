@@ -1,8 +1,9 @@
 <template>
 <div>
     <Header msg="LOG IN" Hightlight="highlight_Store" selectedStore="selected-header"/>
-    <main>
-        <section class="main-search">
+    <div class="background">
+        <main class="container">
+        <section class="main-search row">
             <div class="input-group rounded search">
                 <input @keyup="Enter" v-model="search" @input="checkSearch" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                     aria-describedby="search-addon" />
@@ -10,45 +11,45 @@
                     <i class="fas fa-search"></i>
                 </button>
             </div>
-            <!-- <div class="searchData">
-                <button class="selectedSearch">
-                </button>
-                <button class="selectedSearch">
-                </button>
-                <button class="selectedSearch">
-                </button>
-            </div> -->
         </section>
-        <section>
+        <section class="row">
             <div>
                 <span>GAME OF THE MONTH</span>
             </div>
-            <div class="line-GameofMonth"></div>
-            <div class="GameofMonth">
+            <div class="line-GameofMonth row"></div>
+            <div class="GameofMonth col">
                 <a :href="'/gameDetail/'+topGameOfMonth.id">
-                    <div class="Game-background" :style="{'background-image': `url(${background})`}">
+                    <div class="Game-background img-fluid" :style="{'background-image': `url(${background})`}">
                         
                     </div>
                 </a>
-                <ul class="circle">
+                <ul class="circle col">
                     <li class="selected-circle"><i class="fas fa-circle"></i></li>
                     <li><i class="fas fa-circle"></i></li>
                     <li><i class="fas fa-circle"></i></li>
                 </ul>
             </div>
-            <div class="Game-detail">
+            <div v-if="topGameOfMonth.original_price>0" class="Game-detail">
                 <div>
                     <span>{{topGameOfMonth.title}}</span>
                 </div>
                 <ul>
                     <li>{{topGameOfMonth.price}} RIELS</li>
                     <li class="discount">{{topGameOfMonth.original_price}} RIELS</li>
-                    <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
+                    <li><a :href="'/Checkout/'+topGameOfMonth.id"><button class="btn btn-danger ">BUY NOW</button></a></li>
+                </ul>
+            </div>
+            <div v-else class="Game-detail ">
+                <div>
+                    <span>{{topGameOfMonth.title}}</span>
+                </div>
+                <ul>
+                    <li><a :href="'/gameDetail/'+topGameOfMonth.id"><button class="btn btn-danger ">DOWNLOAD</button></a></li>
                 </ul>
             </div>
         </section>
         <!-- <img src="../assets/images/logo.png" alt="" id="image">  //test change images every 30s-->
-        <section>
+        <section class="row">
             <div class="Top-free-game">
                 <div>
                     <span>TOP FREE GAME</span>
@@ -58,8 +59,8 @@
                 </div>
             </div>
             <div class="line"></div>
-            <div class="game">
-                <div v-for="(freeGame,i) in localStoreTopFreeGame" :key="freeGame._id">
+            <div class="game row">
+                <div v-for="(freeGame,i) in localStoreTopFreeGame" :key="freeGame._id" class="col" >
                     <!-- img -->
                     <a :href="'/gameDetail/'+freeGame._id">
                         <div class="sub-game" :style="{'background-image': `url(${require('../../../server/public/'+freeGame.Files[0])})`}" :data-page="i" @mouseover="mouseOver(i)" @mouseleave="mouseLeave(i)" >
@@ -77,7 +78,7 @@
                 </div>
             </div>
         </section>
-        <section>
+        <section class="row">
             <div class="Top-free-game">
                 <div>
                     <span>TOP PAID GAME</span>
@@ -87,8 +88,8 @@
                 </div>
             </div>
             <div class="line"></div>
-            <div class="game" >
-                <div v-for="(TopPaidGame,i) in localStoreTopPaidGame" :key="TopPaidGame._id">
+            <div class="game row" >
+                <div v-for="(TopPaidGame,i) in localStoreTopPaidGame" :key="TopPaidGame._id" class="col">
                     <!-- img -->
                     <a :href="'/gameDetail/'+TopPaidGame._id">
                         <div class="sub-game" :style="{'background-image': `url(${require('../../../server/public/'+TopPaidGame.Files[0])})`}" :data-page="i" @mouseover="mouseOver(i)" @mouseleave="mouseLeave(i)" >
@@ -101,78 +102,13 @@
                         <li><div class="red-line"></div></li>
                         <li>{{TopPaidGame.Price}} RIELS</li>
                         <li v-if="TopPaidGame.DiscountPrice>0" class="discount">{{TopPaidGame.OriginalPrice}} RIELS</li>
-                        <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
+                        <li><a :href="'/Checkout/'+topGameOfMonth.id"><button class="btn btn-danger ">BUY NOW</button></a></li>
                     </ul>
                     <div class="Stars" :style="'--rating:'+TopPaidGame.Rating+';'" aria-label="Rating of this product is 2.3 out of 5."></div>
                 </div>
-                <!-- <div>
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/League_of_Legends.jpg')})`}" data-page="second-game" @mouseover="mouseOver('second-game')" @mouseleave="mouseLeave('second-game')">
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>20,000 RIELS</li>
-                        <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div >
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Battlefleld1.jpg')})`}" data-page="third-game" @mouseover="mouseOver('third-game')" @mouseleave="mouseLeave('third-game')">
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>20,000 RIELS</li>
-                        <li class="discount">40,000 RIELS</li>
-                        <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="fas fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                        <li><i class="far fa-star"></i></li>
-                    </ul>
-                </div>
-                <div >
-                    <a href="/gameDetail">
-                        <div class="sub-game" :style="{'background-image': `url(${require('../assets/images/Red_Dead.jpg')})`}" data-page="forth-game" @mouseover="mouseOver('forth-game')" @mouseleave="mouseLeave('forth-game')" >
-
-                        </div>
-                    </a>
-                    <ul class="game-detail">
-                        <li>GAME TITLE</li>
-                        <li><p>Game description Game description</p></li>
-                        <li><div class="red-line"></div></li>
-                        <li>20,000 RIELS</li>
-                        <li class="discount">40,000 RIELS</li>
-                        <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
-                    </ul>
-                    <ul class="rating">
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="fas fa-star "></i></li>
-                        <li><i class="far fa-star "></i></li>
-                    </ul>
-                </div> -->
             </div>
         </section>
-        <section>
+        <!-- <section class="row">
             <div class="Top-free-game">
                 <div>
                     <span>TOP NEWEST GAME</span>
@@ -182,9 +118,8 @@
                 </div>
             </div>
             <div class="line"></div>
-            <div class="game">
-                <div>
-                    <!-- img -->
+            <div class="game row">
+                <div >
                     <a href="/gameDetail">
                         <div class="sub-game" data-page="first-game" @mouseover="mouseOver('first-game')" @mouseleave="mouseLeave('first-game')" >
 
@@ -217,7 +152,6 @@
                         <li><p>Game description Game description</p></li>
                         <li><div class="red-line"></div></li>
                         <li>20,000 RIELS</li>
-                        <!-- <li>40,000 RIELS</li> -->
                         <li><a href="/Checkout"><button class="btn btn-danger ">BUY NOW</button></a></li>
                     </ul>
                     <ul class="rating">
@@ -273,8 +207,8 @@
                     </ul>
                 </div>
             </div>
-        </section>
-        <section>
+        </section> -->
+        <section class="row">
             <div class="Top-free-game">
                 <div>
                     <span>OUR TOP CATEGORIES</span>
@@ -286,19 +220,21 @@
             <div class="line"></div>
             <div>
                 <ul class="Top-categories">
-                    <li><button class="btn btn-light style-categories">ACTION</button></li>
-                    <li><button class="btn btn-light style-categories">ADVANTURE</button></li>
-                    <li><button class="btn btn-light style-categories">FIGHTER</button></li>
+                    <a :href="'/gamePage/action'"><li><button class="btn btn-light style-categories">ACTION</button></li></a>
+                    <a :href="'/gamePage/advanture'"><li><button class="btn btn-light style-categories">ADVANTURE</button></li></a>
+                    <a :href="'/gamePage/fighter'"><li><button class="btn btn-light style-categories">FIGHTER</button></li></a>
                 </ul>
                 <ul class="Top-categories">
-                    <li><button class="btn btn-light style-categories">FAMILY</button></li>
-                    <li><button class="btn btn-light style-categories">SPORT</button></li>
-                    <li><button class="btn btn-light style-categories">STRATEGY</button></li>
+                    <a :href="'/gamePage/family'"><li><button class="btn btn-light style-categories">FAMILY</button></li></a> 
+                    <a :href="'/gamePage/sport'"><li><button class="btn btn-light style-categories">SPORT</button></li></a>
+                    <a :href="'/gamePage/strategy'"><li><button class="btn btn-light style-categories">STRATEGY</button></li></a>
                 </ul>
             </div>
         </section>
-        <Footer/>
     </main>
+    </div>
+    
+    <Footer/>
 </div>
 </template>
 
@@ -451,7 +387,10 @@ export default {
     padding: 0;
     box-sizing: border-box;
 }
-main{
+.row>*{
+    padding: 0;
+}
+.background{
     color: white;
     font-family: Ubuntu;
     font-style: normal;
@@ -462,7 +401,7 @@ main{
 main section{
     display: block;
     align-items: center;
-    padding: 2rem 10rem 2rem 10rem;
+    padding: 2rem 5rem 2rem 5rem;
 }
 .main-search{
     display: flex;
@@ -539,8 +478,9 @@ button{
 }
 .game{
     display: flex;
-    justify-content: space-between;
-    padding: 2rem 0 2rem 0;
+    /* justify-content: space-between; */
+    padding: 2rem 0 2rem 1rem;
+
 }
 .sub-game{
     width: 11rem;

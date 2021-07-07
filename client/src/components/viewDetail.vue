@@ -1,6 +1,6 @@
 <template>
 <div>
-    <Header msg="LOG IN" Hightlight="highlight_Store"/>
+    <Header msg="LOG IN" selectedStore="selected-header"/>
     <main>
         <section>
             <div class="Back-to-store">
@@ -121,9 +121,12 @@
             </div>
             <div class="postedComment" v-if="commented">
                 <div>
-                    <input v-model="formComment.comment" type="text" placeholder="Write your experience here">
+                    <input v-model="formComment.comment" type="text" placeholder=" Write your experience here">
+                </div >
+                <div v-if="formComment.comment.length==0">
+                    <button @click="closeComment" class="btn btn-danger"><i class="fas fa-times"></i></button>
                 </div>
-                <div>
+                <div v-else>
                     <button @click="postComment" class="btn btn-danger">POST</button>
                 </div>
             </div>
@@ -177,7 +180,11 @@ export default {
                 username:'',
                 gameid:'',
                 stars:0,
-            }
+            },
+            userInfo: {
+                userID:'',
+                userName:'',
+            },
         }
     },
     components:{
@@ -226,8 +233,8 @@ export default {
         },
         ratingStar:function(index){
             let rating=0;
-            this.formRating.userid="7685"
-            this.formRating.username="Kante"
+            this.formRating.userid=this.userInfo.userID
+            this.formRating.username=this.userInfo.userName
             this.formRating.gameid=this.formGame.id
             this.formRating.stars=index
             this.getRatingByUserID.stars=index
@@ -268,22 +275,25 @@ export default {
                 });
             }
         },
+        closeComment(){
+            this.commented=false;
+        },
         submitComment(){
             this.commented=true;
         },
         postComment(){
             this.commented=false;
-            this.formComment.userid="346234" //userID
-            this.formComment.username="Jessica" //userName
+            this.formComment.userid=this.userInfo.userID //userID
+            this.formComment.username=this.userInfo.userName //userName
             this.formComment.id=this.formGame.id
-            axios.post('http://localhost:2000/comment/'+this.formGame.id,this.formComment).then(result=>{
-                let str=result.data.commentedAt.split("T");
-                result.data.commentedAt=str[0]; 
-                this.localStoreComment.unshift(result.data)
-                this.formComment.comment="";
-            }).catch(err=>{
-                console.log(err);
-            })
+                axios.post('http://localhost:2000/comment/'+this.formGame.id,this.formComment).then(result=>{
+                    let str=result.data.commentedAt.split("T");
+                    result.data.commentedAt=str[0]; 
+                    this.localStoreComment.unshift(result.data)
+                    this.formComment.comment="";
+                }).catch(err=>{
+                    console.log(err);
+                })
         },
         seeMoreComment(){
             this.length+=2
@@ -298,23 +308,27 @@ export default {
         const urlName = route.name
         const editType=urlName.split("/")
         this.formGame.id=route.params.id;
-        const userID="7685"
         //get rating by Game ID
         const getRatingByGameID = await axios.get(`http://localhost:2000/getRating/${this.formGame.id}`);
-        // console.log(getRatingByGameID);
-        getRatingByGameID.data.forEach(element => {
-            if(element.userID==userID){
-                this.getRatingByUserID.id=element._id;
-                this.getRatingByUserID.username=element.userName;
-                this.getRatingByUserID.userID=element.userID;
-                this.getRatingByUserID.stars=element.Stars;
+        setTimeout(()=>{
+            const {user} = getUser();
+            this.userInfo.userID={user}.user._rawValue.uid
+            this.userInfo.userName={user}.user._rawValue.displayName
+            console.log(this.userInfo.userID);
+            getRatingByGameID.data.forEach(element => {
+                if(element.userID==this.userInfo.userID){
+                    this.getRatingByUserID.id=element._id;
+                    this.getRatingByUserID.username=element.userName;
+                    this.getRatingByUserID.userID=element.userID;
+                    this.getRatingByUserID.stars=element.Stars;
+                }
+                this.formGame.rating+=element.Stars
+            });
+            this.formGame.rating=(this.formGame.rating/getRatingByGameID.data.length).toFixed(2);
+            for(var i=0;i<this.getRatingByUserID.stars;i++){
+                rating.children[i].style.color="#dc3545"
             }
-            this.formGame.rating+=element.Stars
-        });
-        this.formGame.rating=(this.formGame.rating/getRatingByGameID.data.length).toFixed(2);
-        for(var i=0;i<this.getRatingByUserID.stars;i++){
-            rating.children[i].style.color="#dc3545"
-        }
+        },500)
         //get one game
         const response= await axios.get(`http://localhost:2000/admin/getGames/${this.formGame.id}`);
         // when user view game the Views in DB increase 1
@@ -514,6 +528,7 @@ main section{
 }
 .postedComment input{
     width: 30rem;
+    height: 2rem;
     border: 1px solid #D72323;
 }
 

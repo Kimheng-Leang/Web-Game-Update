@@ -1,21 +1,23 @@
 <template>
     <footer>
-        <div class="policy">
-            <ul class="policy-detail">
-                <ul class="list-policy">
-                    <li>PRIVACY POLICY</li>
-                    <li>REFUND</li>
-                    <li>TERM & CONDITION</li>
-                    <li>HELP</li>
+        <div class="container">
+            <div class="policy col-10">
+                <ul class="policy-detail col">
+                    <ul class="list-policy col">
+                        <li class="row">PRIVACY POLICY</li>
+                        <li class="row">REFUND</li>
+                        <li class="row">TERM & CONDITION</li>
+                        <li class="row">HELP</li>
+                    </ul>
+                    <li class="row"><div class="white-line"></div> </li>
+                    <li class="row">@2021 ANACHAK GAME ALL RIGHT RESERVED</li>
                 </ul>
-                <li><div class="white-line"></div> </li>
-                <li>@2021 ANACHAK GAME ALL RIGHT RESERVED</li>
-            </ul>
-        </div>
-        <div class="channels">
-            <img src="../assets/images/FacebookLogo.svg" alt="">
-            <img src="../assets/images/DiscordLogo.svg" alt="">
-            <img src="../assets/images/InstagramLogo.svg" alt="">
+            </div>
+            <div class="channels col-2">
+                <img class="row" src="../assets/images/FacebookLogo.svg" alt="">
+                <img class="row" src="../assets/images/DiscordLogo.svg" alt="">
+                <img class="row" src="../assets/images/InstagramLogo.svg" alt="">
+            </div>  
         </div>
     </footer>
 </template>
@@ -31,22 +33,22 @@ export default {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
 footer{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     font-family: Ubuntu;
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
     line-height: 18px;
-    width: 100%;
-    height: 10rem; 
     background-color: #3A4750;
-    margin: 0;
+    margin: auto;
     color: #EEEEEE;
-    padding: 2rem;
+}
+.container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .channels{
     width: 20%;

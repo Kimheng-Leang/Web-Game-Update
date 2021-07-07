@@ -1,22 +1,23 @@
 <template>
 <div>
     <Header msg="LOG IN" Hightlight="highlight_Home" selectedHome="selected-header"/>
-    <main >
-        <section >
-            <span>TRENDING NOW</span>
-            <div class="mainboard" >
-                <div class="main-billboard" :style="{'background-image': `url(${formGame.background})`}">
-                    <div class="sub-title">
-                        <h3>{{formGame.title}}</h3>
-                        <div>
+    <div class="background">
+        <main class="container">
+        <section class="row">
+            <span class="row">TRENDING NOW</span>
+            <div class="mainboard row" >
+                <div class="main-billboard col" :style="{'background-image': `url(${formGame.background})`}">
+                    <div class="sub-title row">
+                        <h3 class="row">{{formGame.title}}</h3>
+                        <div class="row">
                             <p>{{formGame.description}} </p>
                         </div>
-                        <div>
+                        <div class="row">
                         <a :href="'/gameDetail/'+formGame.id"><button class="btn btn-light button">EXPLORE MORE <i class="fas fa-chevron-right"></i></button></a>
                         </div>
                     </div>
                 </div>
-                <div class="sub-billboard">
+                <div class="sub-billboard col-2">
                     <div v-for="(game,i) in localStore.slice(0,1)" :key="game._id" class="sub-billboards selected" @mouseleave="mouseLeave(i)" @mouseover="mouseOver(i)" @click="clickSubbillBoard(i,game)" :data-page="i" >
                         <div class="sub-img" :style="{'background-image': `url(${require('../../../server/public/'+game.Files[0])})`}">
                             
@@ -36,8 +37,8 @@
                 </div>
             </div>
         </section>
-        <section>
-            <div class="dropdown">
+        <section class="row">
+            <div class="dropdown row">
                 <button
                 class="btn btn-secondary dropdown-toggle"
                 type="button"
@@ -54,8 +55,8 @@
                     <li><a class="dropdown-item" href="/gamePage/newestGame">NEWEST GAME</a></li>
                 </ul>
             </div>
-            <div class="game">
-                <div v-for="(game,i) in localStore" :key="game._id">
+            <div class="game row">
+                <div v-for="(game,i) in localStore" :key="game._id" class="col">
                     <!-- img -->
                     <a :href="'/gameDetail/'+game._id">
                         <div class="sub-game" :style="{'background-image': `url(${require('../../../server/public/'+game.Files[0])})`}" :data-page="i" @mouseover="mouseOver(i)" @mouseleave="mouseLeave(i)" >
@@ -84,17 +85,17 @@
         <div class="cross-line">
 
         </div>
-        <section>
-            <div class="News">
-                <div>
+        <section class="row">
+            <div class="News row">
+                <div class="col">
                     <span>NEWS</span>
                 </div>
-                <div>
+                <div class="col-1">
                     <a href="http://localhost:8080/Newspage">SEE ALL</a>
                 </div>
             </div>
-            <div class="game">
-                <div v-for="(news,i) in localStoreNews" :key="news._id">
+            <div class="game row">
+                <div v-for="(news,i) in localStoreNews" :key="news._id" class="col">
                     <a :href="'/newsDetail/'+news._id">
                         <div class="News-img" :style="{'background-image': `url(${require('../../../server/public/'+news.Files[0])})`}" :data-page="i" @mouseover="mouseOver(i)" @mouseleave="mouseLeave(i)" >
 
@@ -113,6 +114,8 @@
             </div>
         </section>
     </main>
+    </div>
+    
     <Footer/>
 </div>
 </template>
@@ -273,7 +276,10 @@ export default {
     padding: 0;
     box-sizing: border-box;
 }
-main{
+.row>*{
+    padding: 0;
+}
+.background{
     color: white;
     font-family: Ubuntu;
     font-style: normal;
@@ -284,7 +290,7 @@ main{
 main section{
     display: block;
     align-items: center;
-    padding: 2rem 10rem 2rem 10rem;
+    padding: 2rem 5rem 2rem 5rem;
 }
 .mainboard{
     display: flex;
@@ -294,7 +300,6 @@ main section{
     width: 45rem;
     height: 24rem;
     font-weight: normal;
-    background: #C6C0C0;
     color: #000000;
     background-size:100%;
     background-repeat: no-repeat;
@@ -310,7 +315,6 @@ main section{
     border: 1px solid #EEEEEE;
     box-sizing: border-box;
     cursor: pointer;
-    
 }
 .sub-billboards p{
     font-size:0.9rem;
@@ -346,6 +350,10 @@ main section{
     align-items: center;
     width: 11rem;
     border-radius: 0;
+}
+.dropdown{
+    width: 10rem;
+    height: 2rem;
 }
 .game{
     display: flex;

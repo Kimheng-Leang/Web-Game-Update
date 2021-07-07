@@ -1,34 +1,29 @@
 <template>
 <div>
-    <Header msg="LOG IN" Hightlight="highlight_News" />
+    <Header msg="LOG IN" selectedNews="selected-header" />
     <!-- all link to checkout page at user icon -->
     <!-- red bar must be at news -->
     <main>
-        <section>
+        <section class="container">
         <!-- Title of Game News Details -->
         <!-- I want to add mapping for users -->
-        <div class="card">
+        <div class="Back-to-store">
+                    <router-link  to="/NewsPage" class="link">
+                    <i class="fas fa-arrow-left set-color" style="color:red;"></i> BACK TO NEWS
+                    </router-link>
+        </div>
+        <div class="card row">
             <div class="card-body">
             <!-- add from database -->
             <h2 class="card-title">
-                Crysis Remastered Trilogy Arrives This Fall
+                {{getOneNews.title}}
             </h2>
             <img
-                src="https://www.gameinformer.com/sites/default/files/styles/full/public/2020/04/16/31cd363a/crysis.jpg"
+                :src="getOneNews.img"
                 class="card-img-top"
             />
             <p class="card-text" style="margin-top: 1rem">
-                {{ paragraph1 }}
-            </p>
-            <p class="card-text">
-                {{ paragraph2 }}
-            </p>
-            <!-- video title for the game -->
-            <div class="Add_video">
-                <h1>Video Trailer</h1>
-            </div>
-            <p class="card-text">
-                {{ paragraph3 }}
+                {{getOneNews.description}}
             </p>
             </div>
         </div>
@@ -41,21 +36,32 @@
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+import axios from "axios"
 export default {
-components: {
-    Header,
-    Footer,
-},
-data() {
-    return {
-    paragraph1:
-        "Crysis Remastered Trilogy is launching sometime this fall. The package includes last year’s modernized version of Crysis as well as remasters of Crysis 2 and Crysis 3 to run on modern consoles and PC. The bundle is the result of a development partnership between Crytek and Saber Interactive.",
-    paragraph2:
-        "While Crysis Remastered launched as a standalone title last summer, this is the first time that the second and third games have been shined up for a modern encore. Unfortunately, Crytek hasn’t detailed the specific upgrades those games will receive, but Crysis Remastered boasted improved visuals with a resolution up to 8K as well as HDR and ray tracing. While you wait for Crytek to confirm the technical details, you can get a visual sense of the improvements by watching the teaser trailer below.",
-    paragraph3:
-        "If you’ve already experienced Crysis Remastered and just want to play the remaining two games, Crytek states that Crysis 2 and Crysis 3 Remastered will eventually be sold as standalone titles (but doesn't specify when that will happen). The downside of this package is that none of the games will include their respective multiplayer modes. Still, if you missed out on the Crysis series back in the day, this package offers the perfect opportunity to give it a shot without having to stare at aging visuals. ",
-    };
-},
+    components: {
+        Header,
+        Footer,
+    },
+    data() {
+        return {
+            getOneNews:{
+                id:'',
+                title:'',
+                description:'',
+                img:''
+            },
+        };
+    },
+    async mounted(){
+        console.log(this.$router.currentRoute);
+        const response = await axios.get('http://localhost:2000/admin/getNews/'+this.$router.currentRoute._value.params.id);
+        console.log(response.data);
+        this.getOneNews.title=response.data.Title
+        this.getOneNews.id = response.data._id
+        this.getOneNews.description = response.data.Description
+        this.getOneNews.img = require('../../../server/public/'+response.data.Files[0])
+
+    }
 };
 </script>
 
@@ -80,6 +86,7 @@ padding: 2rem 10rem 2rem 10rem;
 }
 .card {
 background: none;
+margin-top: 1rem;
 }
 .card-title {
 font-weight: bold;
@@ -96,5 +103,20 @@ height: 20rem;
 background-color: gray;
 margin-left: auto;
 margin-right: auto;
+}
+.Back-to-store{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 10rem;
+    border-radius: 1rem;
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    border:1px solid red;
+    cursor: pointer;
+}
+.link{
+    color:white;
+    text-decoration: none;
+    
 }
 </style>

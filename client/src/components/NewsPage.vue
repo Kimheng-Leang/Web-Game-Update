@@ -4,13 +4,14 @@
         <main>
             <section>
                 <div id="know_us_more">GET TO KNOW US MORE</div>
-            </section>
-            <section v-for="i in countLine" :key="i.id" class="NewsList">
-                <div v-for="news in localStore.slice((i*2)-2,i*2)" :key="news._id" class="row1">
+                <div v-for="i in countLine" :key="i.id" class="NewsList">
+                    <div v-for="news in localStore.slice((i*2)-2,i*2)" :key="news._id" class="row1">
                     <div class="row1col1 columm1">
-                        <div class="r1c1 image_background img1"  :style="{'background-image': `url(${require('../../../server/public/'+news.Files[0])})`}">
+                        <a :href="'/newsDetail/'+news._id">
+                            <div class="r1c1 image_background img1"  :style="{'background-image': `url(${require('../../../server/public/'+news.Files[0])})`}">
 
-                        </div>
+                            </div>
+                        </a>
                         <!--for insert image-->
                         <ul class="inform list1">
                             <li class="news">NEWS</li>
@@ -18,6 +19,7 @@
                         </ul>
                         <div class="stream_topic">GET TO KNOW OUR STREAMERS</div>
                     </div>
+                </div>
                 </div>
             </section>
         </main>
@@ -117,10 +119,13 @@ li.list.l4 {
     justify-content: space-between;
 }
 
-div>.image_background {
+a>.image_background {
     width: 23.75em;
     height: 13.625em;
-    background-color: #C6C0C0;
+    background-size:100%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+
 }
 
 /* .r1c1.img1 {
@@ -248,6 +253,7 @@ div.copyright>div.line {
     transition: all 0.3s ease-in;
 }
 .NewsList{
+    padding-top:1rem ;
     display: flex;
     justify-content: space-between;
 }

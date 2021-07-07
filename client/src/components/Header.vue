@@ -1,22 +1,22 @@
 <template>
     <header>
-        <nav>
-            <ul >
+        <nav class="container">
+            <ul  class="col-11">
                 <!-- logo -->
-                <li><img src="../assets/images/Anachak_logo.svg" alt=""></li>
-                <li class="Header-list" ><router-link  to="/" class="link"  data-Header="Home" :class="selectedHome">Home</router-link></li>
-                <li class="Header-list" ><router-link  to="/AboutUS" class="link"  data-Header="AboutUs" :class="selectedAboutUs">About us</router-link></li>
-                <li class="Header-list" ><router-link  to="/Store" class="link"  data-Header="Store" :class="selectedStore">Store</router-link></li>
-                <li class="Header-list" ><router-link  to="/NewsPage" class="link"  data-Header="News" :class="selectedNews">News</router-link></li>
-                <li class="Header-list" ><router-link  to="/Faq" class="link"  data-Header="Faq" :class="selectedFaq">FAQ</router-link></li>
-                <div :class="Hightlight" class="position">
+                <li class="row"><img src="../assets/images/Anachak_logo.svg" alt=""></li>
+                <router-link  to="/" class="link row"  data-Header="Home"><li class="Header-list" :class="selectedHome">Home</li></router-link>
+                <router-link  to="/AboutUS" class="link row"  data-Header="AboutUs" ><li class="Header-list" :class="selectedAboutUs">About us</li></router-link>
+                <router-link  to="/Store" class="link row"  data-Header="Store" ><li class="Header-list" :class="selectedStore">Store</li></router-link>
+                <router-link  to="/NewsPage" class="link row"  data-Header="News" ><li class="Header-list" :class="selectedNews">News</li></router-link>
+                <router-link  to="/Faq" class="link row"  data-Header="Faq"><li class="Header-list" :class="selectedFaq">FAQ</li></router-link>
+                <!-- <div :class="Hightlight" class="position">
 
-                </div>
+                </div> -->
             </ul>
-            <div class="Log-in">
+            <div class="Log-in col-1">
                 <router-link  to="/userpage"><i class="far fa-user" :class="selectedUser"></i></router-link>
-                <router-link v-if="user !== null" to="/userpage" >{{user.displayName}}</router-link>
-                <router-link v-else to="/login">{{msg}}</router-link>
+                <router-link v-if="user !== null" to="/userpage" class="row" >{{user.displayName}}</router-link>
+                <router-link v-else to="/login" class="row">{{msg}}</router-link>
             </div>
         </nav>
     </header>
@@ -36,6 +36,7 @@ export default {
     },
     props:{
         msg:String,
+        selectedList:String,
         selectedHome:String,
         selectedStore:String,
         selectedAboutUs:String,
@@ -108,7 +109,6 @@ nav div{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 6.5%;
 }
 .line{
     position: absolute;
@@ -168,8 +168,10 @@ img{
     transition: all 0.5s ease-in;
 }
 .selected-header{
+    border-bottom: 0.2rem solid #D72323;
     color: #D72323;
 }
+
 
 </style>
 
